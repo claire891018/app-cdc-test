@@ -6,7 +6,7 @@ import pandas as pd
 import pygsheets
 from datetime import datetime
 
-gc = pygsheets.authorize(service_account_file=os.getenv('GOOGLE_CREDENTIALS'))
+gc = pygsheets.authorize(service_account_file=os.getenv('GOOGLE_APPLICATION_CREDENTIALS'))
 
 # informations
 captions = ["剛開學了!你正準備在前往教室的路上⋯⋯", 
