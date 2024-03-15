@@ -1,10 +1,12 @@
 import time
+import os
 import streamlit as st
 import numpy as np
 import pandas as pd
 import pygsheets
 from datetime import datetime
 
+gc = pygsheets.authorize(service_account_file=os.getenv('GOOGLE_APPLICATION_CREDENTIALS'))
 
 # informations
 captions = ["剛開學了!你正準備在前往教室的路上⋯⋯", 
@@ -194,7 +196,6 @@ if st.session_state.page == 0:
     st.caption("開始測驗前請幫我完成以下資料填寫，高雄 CDC 感謝您！")
                
     # Google sheet
-    gc = pygsheets.authorize(service_account_file="/Users/user/Downloads/cdctest-417103-ae50539983ab.json")
     survey_url = "https://docs.google.com/spreadsheets/d/1VWiWosXGeWB44pyObZcHciq3nOPY-DWKm2rPtBjUbxQ/edit?usp=sharing"
     sheet = gc.open_by_url(survey_url)
     wks = sheet.worksheet_by_title("聯絡名單") 
