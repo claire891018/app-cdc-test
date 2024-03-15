@@ -18,10 +18,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install streamlit pygsheets
-      - name: Deploy Streamlit App
-        env:
-          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+      - name: Set up Google Cloud credentials
         run: |
-          echo "${GCP_CREDENTIALS}" > gcp_credentials.json
-          export GOOGLE_APPLICATION_CREDENTIALS=gcp_credentials.json
+          echo "${{ secrets.GCP_CREDENTIALS }}" > client_secret.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=${PWD}/client_secret.json" >> $GITHUB_ENV
+      - name: Deploy Streamlit App
+        run: |
           streamlit run streamlit_app.py
