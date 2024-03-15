@@ -8,20 +8,25 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
+
       - name: Install dependencies
+        run: pip install streamlit pygsheets os
+
+      - name: Setup GCP credentials
+        env:
+          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
         run: |
-          pip install streamlit pygsheets
-      - name: Set up Google Cloud credentials
-        run: |
-          echo "${{ secrets.GCP_CREDENTIALS }}" > client_secret.json
-          echo "GOOGLE_APPLICATION_CREDENTIALS=${PWD}/client_secret.json" >> $GITHUB_ENV
-      - name: Deploy Streamlit App
-        run: |
-          streamlit run streamlit_app.py
+          echo "$GCP_CREDENTIALS" > gcp_credentials.json
+          export GOOGLE_APPLICATION_CREDENTIALS=gcp_credentials.json
+
+      - name: Deploy
+        run: streamlit run app.py
